@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Agenda Pelada</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚽</text></svg>">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    
+    <style>
+      .font-display { font-family: 'Bebas Neue', sans-serif; }
+    </style>
+
+</head>
+<body class="bg-gray-100">
+
+    <nav class="bg-green-700 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex-shrink-0 flex items-center">
+                   <h1 class="font-display text-3xl font-bold text-white tracking-wide">Agenda Pelada</h1>
+                </div>
+                <div class="flex items-center">
+                    <span id="user-email" class="text-sm text-green-100 mr-4"></span>
+                    <button id="btn-logout" class="bg-red-500 text-white px-3 py-1 rounded-md text-sm font-medium hover:bg-red-600">Sair</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        
+        <div class="w-full h-48 md:h-64 rounded-b-lg overflow-hidden shadow-lg mb-6">
+            <img 
+                src="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?auto=format&fit=crop&w=1920&q=80" 
+                alt="Campo de futebol com grama verde" 
+                class="w-full h-full object-cover object-center"
+            >
+        </div>
+
+        <div class="flex justify-between items-center mb-4 px-4 sm:px-0">
+            <div>
+                <h2 class="font-display text-4xl font-bold text-gray-800">Próximas Partidas</h2>
+                <p class="text-sm text-gray-600">Veja as partidas disponíveis, inscreva-se ou crie a sua.</p>
+            </div>
+            <button id="btn-nova-partida" class="bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 shadow flex-shrink-0">
+                + Criar Nova Partida
+            </button>
+        </div>
+
+
+        <div id="lista-partidas" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 sm:px-0 pb-6">
+            
+            <div class="bg-white p-6 rounded-lg shadow-md animate-pulse">
+                <h3 class="text-lg font-bold bg-gray-200 h-6 w-3/4 rounded"></h3>
+                <div class="space-y-2 mt-4">
+                    <p class="text-gray-600 bg-gray-200 h-4 w-1/2 mt-2 rounded"></p>
+                    <p class="text-gray-600 bg-gray-200 h-4 w-1/3 mt-2 rounded"></p>
+                    <p class="text-gray-600 bg-gray-200 h-4 w-1/4 mt-2 rounded"></p>
+                </div>
+                <div class="mt-6 pt-4 border-t flex justify-between">
+                    <button class="bg-blue-300 text-white px-3 py-1 rounded w-24 h-8"></button>
+                </div>
+            </div>
+            </div>
+    </main>
+
+    <div id="modal-partida" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden">
+        <div class="relative top-20 mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
+            
+            <form id="form-partida" class="space-y-4">
+                <h3 id="modal-titulo" class="font-display text-3xl font-bold text-center text-gray-800">Criar Nova Partida</h3>
+                
+                <input type="hidden" id="partida-id">
+                
+                <div>
+                    <label for="partida-local" class="block text-sm font-medium text-gray-700">Local da Partida</label>
+                    <input type="text" id="partida-local" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
+                </div>
+                <div>
+                    <label for="partida-data" class="block text-sm font-medium text-gray-700">Data e Hora</label>
+                    <input type="datetime-local" id="partida-data" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
+                </div>
+                <div>
+                    <label for="partida-vagas" class="block text-sm font-medium text-gray-700">Vagas Disponíveis</label>
+                    <input type="number" id="partida-vagas" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
+                </div>
+                <div>
+                    <label for="partida-custo" class="block text-sm font-medium text-gray-700">Custo por Pessoa (R$)</label>
+                    <input type="number" step="0.01" id="partida-custo" placeholder="Ex: 15.50" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md">
+                </div>
+                 <div>
+                    <label for="partida-obs" class="block text-sm font-medium text-gray-700">Observações</label>
+                    <textarea id="partida-obs" placeholder="Ex: Levar chuteira society, colete..." class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md"></textarea>
+                </div>
+
+                <div class="flex justify-end space-x-2">
+                    <button type="button" id="btn-cancelar-modal" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600">Cancelar</button>
+                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+</body>
+</html>
